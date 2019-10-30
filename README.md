@@ -1,2 +1,2 @@
-# A Basic File Structure
-a basic file structure with html,css,javascript, and jquery
+# About
+an app that suggests the a drink based on the weather in the users current location.
