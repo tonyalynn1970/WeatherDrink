@@ -1,19 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    <title>Orbit</title>
 
-    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA=="
+        crossorigin="anonymous">
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/vendor/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw=="
+        crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/foundation.min.js"></script>
 </head>
 
 <body>
 
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
+    <div class="orbit" role="region" data-orbit data-use-m-u-i="false">
+        <ul class="orbit-container">
+            <button class="orbit-previous" aria-label="previous"><span class = "show-for-sr">Previous Slide</span>◀</button>
+            <button class="orbit-next" aria-label="next"><span class = "show-for-sr">Next Slide</span>▶</button>
+
+            <li class="is-active orbit-slide">
+                <div>
+                    <h3 class="text-center">Margarita</h3>
+                    <p class="text-center">1 oz tequila 2oz of tripplesec 30z something else</p>
+                </div>
+            </li>
+
+            <li class="is-active orbit-slide">
+                <div>
+                    <h3 class="text-center">Beer</h3>
+                    <p class="text-center">pour beer into a glass</p>
+                </div>
+            </li>
+
+
+
+        </ul>
+
+        <nav class="orbit-bullets">
+            <button class="is-active" data-slide="0">
+               <span class = "show-for-sr">First slide</span>
+               <span class = "show-for-sr">Current Slide</span>
+            </button>
+
+            <button class="is-active" data-slide="1">
+                <span class = "show-for-sr">Second slide</span>
+                
+             </button>
+
+
+
+
+        </nav>
+    </div>
+
     <script src="assets/javascript/script.js"></script>
 </body>
 
