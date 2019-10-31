@@ -6,6 +6,19 @@
     float: left;
 }
 
+.weather-holder {
+    color: white;
+}
+
+.bg-opac {
+    width: 100%;
+    background-color: black;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    z-index: 1;
+    height: 92%;
+}
+
 .sunny {
     background-color: lightskyblue;
     background-image: url(../img/sunny.jpg);
