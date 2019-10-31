@@ -82,5 +82,50 @@ $(document).ready(function() {
     function randomize(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
 
+        const currWeather = ["hot", "cloudy", "norain"];
+
+        function getIngredient(weather) {
+
+            const ingredientsToWeather = {
+                vodka: { hot: 6, cold: 7, rainy: 6, norain: 5, cloudy: 11, sunny: 6 },
+                gin: { hot: 7, cold: 6, rainy: 9, norain: 4, cloudy: 10, sunny: 7 },
+                whiskey: { hot: 4, cold: 9, rainy: 7, norain: 11, cloudy: 7, sunny: 5 },
+                rum: { hot: 9, cold: 4, rainy: 5, norain: 12, cloudy: 8, sunny: 11 }
+            };
+
+            const ingredientScores = {};
+
+            for (let ingr in ingredientsToWeather) {
+
+                for (let weatherType of weather) {
+                    if (!ingredientScores[ingr]) {
+                        ingredientScores[ingr] = 0;
+                    }
+                    ingredientScores[ingr] += ingredientsToWeather[ingr][weatherType];
+                }
+            }
+
+            let winningIngr;
+            let winningScore = 0;
+            for (let ingr in ingredientScores) {
+
+                if (ingredientScores[ingr] > winningScore) {
+                    winningScore = ingredientScores[ingr];
+                    winningIngr = ingr;
+                }
+            }
+            return winningIngr;
+        }
+
+        const bestIngredient = getIngredient(currWeather);
+        console.log(bestIngredient);
+
+       var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + bestIngredient;
+        var Cocktails = []
+        $.ajax({
+           url: queryURL,
+           method: "GET"
+       }).then(function (response) {
+       
     }
 })
