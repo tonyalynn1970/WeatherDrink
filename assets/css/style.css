@@ -1,0 +1,7 @@
+.grid-container {
+    margin: 2%;
+}
+
+.cell {
+    float: left;
+}
