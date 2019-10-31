@@ -7,6 +7,16 @@
 </head>
 
 <body>
+    <p>Click button</p>
+
+    <button onclick="getLocation()">
+
+    </button>
+
+    <input type="text">
+
+
+
     <div class="city"></div>
     <div class="wind"></div>
     <div class="temp"></div>
@@ -17,34 +27,40 @@
     <script type="text/javascript">
 
         var APIKey = "3cc9b3772873588eb5472e5de97869f4";
-        var queryURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&q=atlanta&appid=" + APIKey
+        // var queryURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&q="  + "&appid=" + APIKey
 
-        // var queryURL = "http://api.openweathermap.org/data/2.5/weather?id=us&appid= + APIKey
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                const latitude = position.coords.latitude;
+                const longintude = position.coords.longitude;
+                var queryURL = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longintude + "&appid=" + APIKey
 
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                })
 
+                    .then(function (response) {
+                        console.log(queryURL);
+                        console.log(response);
 
-        $.ajax({
-            url: queryURL,
-            method: "GET"
-        })
+                        $(".city").append("City:" + response.name);
+                        $(".cloud").text("Cloud:" + response.clouds.all);
+                        $(".wind").text("Wind:" + response.wind.speed);
+                        $(".humidity").text("Humidity: " + response.main.humidity);
+                        $(".temp").text("Temperature (F)" + response.main.temp);
 
-            .then(function (response) {
-                console.log(queryURL);
-                console.log(response);
+                        console.log("Wind:" + response.main.wind);
+                        console.log("Humidity:" + response.main.humidity);
+                        console.log("Temperature (F):" + response.main.temp);
+                        console.log("Cloud:" + response.main.cloud);
+                        console.log("City:" + response.main.city);
 
-                $(".city").append("City:" + response.name);
-                $(".cloud").text("Cloud:" + response.clouds.all);
-                $(".wind").text("Wind:" + response.wind.speed);
-                $(".humidity").text("Humidity: " + response.main.humidity);
-                $(".temp").text("Temperature (F)" + response.main.temp);
-
-                console.log("Wind:" + response.main.wind);
-                console.log("Humidity:" + response.main.humidity);
-                console.log("Temperature (F):" + response.main.temp);
-                console.log("Cloud:" + response.main.cloud);
-                console.log("City:" + response.main.city);
-
+                    });
             });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
 
     </script>
 </body>
