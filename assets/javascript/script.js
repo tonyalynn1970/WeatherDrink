@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $(document).foundation();
     // this this out  first is the temp(hot or cold), (second is cloudness needs to be percent), (rain no rain)
-    const currWeather = ["hot", "cloudy", "norain"];
+    const currWeather = [];
     const bestIngredient = getIngredient(currWeather);
     //randomly picking a location
     //let pHLocations = ["Atlanta, GA", "Tampa, Florida", "New York, NY", "Denver, CO"];
@@ -57,22 +57,25 @@ $(document).ready(function() {
             })
 
             .then(function(response) {
-                console.log(queryURL);
-                console.log(response);
 
-                //$(".city").append("City:" + response.name);
+
+                console.log(response);
+                let hotness = isHot(response.main.temp_max)
+                let cloudness = isCloudy(response.clouds.all)
+                let rainyness = isRaining(response.weather[0].main)
+                currWeather[0] = hotness;
+                currWeather[1] = cloudness;
+                currWeather[2] = rainyness;
+                console.log(currWeather)
+                console.log(getIngredient(currWeather));
                 $("#location").text(response.name);
                 $("#cloud").text(response.clouds.all);
                 $("#wind").text(response.wind.speed);
                 $("#humidity").text(response.main.humidity);
-                $("#temperature").text(response.main.temp);
-                //$(".temp").text("Temperature (F)" + response.main.temp);
+                $("#temperature").text(response.main.temp_max);
 
-                console.log("Wind:" + response.main.wind);
-                console.log("Humidity:" + response.main.humidity);
-                console.log("Temperature (F):" + response.main.temp);
-                console.log("Cloud:" + response.main.cloud);
-                console.log("City:" + response.main.city);
+
+
 
             });
         });
@@ -86,6 +89,31 @@ $(document).ready(function() {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
+    //deterimes if its cloudy
+    function isCloudy(input) {
+        if (input > 35) {
+            return "cloudy"
+        } else
+            return "sunny"
+
+    }
+    // determines if its hot
+    function isHot(input) {
+        if (input > 70) {
+            return "hot"
+        } else {
+            return "cold"
+        }
+    }
+
+    //is is raining
+    function isRaining(input) {
+        if (input === "Rain" || input === "Thunderstorm") {
+            return "rainy"
+        } else {
+            return "norain"
+        }
+    }
 
     function getIngredient(weather) {
 
@@ -121,7 +149,6 @@ $(document).ready(function() {
     }
 
 
-    console.log(bestIngredient);
 
     var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + bestIngredient;
     var Cocktails = []
@@ -131,4 +158,6 @@ $(document).ready(function() {
     }).then(function(response) {
         //do something here with response
     })
+
+
 })
