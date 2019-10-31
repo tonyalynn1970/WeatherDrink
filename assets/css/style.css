@@ -5,3 +5,43 @@
 .cell {
     float: left;
 }
+
+.sunny {
+    background-color: lightskyblue;
+    background-image: url(../img/sunny.jpg);
+    background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+}
+
+.cloudy {
+    background-color: darkblue;
+    background-image: url(../img/cloudy.jpeg);
+    background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+}
+
+.rainy {
+    background-color: grey;
+    background-image: url(../img/rainy.jpeg);
+    background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+}
+
+.snowy {
+    background-color: lightgrey;
+    background-image: url(../img/snowy.jpeg);
+    background-size: cover;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+}
