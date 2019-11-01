@@ -2,9 +2,10 @@ $(document).ready(function() {
     $(document).foundation();
     // this this out  first is the temp(hot or cold), (second is cloudness needs to be percent), (rain no rain)
     const currWeather = [];
-    const bestIngredient = getIngredient(currWeather);
-    //randomly picking a location
-    //let pHLocations = ["Atlanta, GA", "Tampa, Florida", "New York, NY", "Denver, CO"];
+    let bestIngredient = ""
+
+
+
     //randomly creating weather condition
     let pHConditions = [{
             "description": "sun",
@@ -42,6 +43,9 @@ $(document).ready(function() {
     $("body").addClass(condDisplay.background)
     $("#condition").addClass(condDisplay.conditionIcon)
 
+
+
+
     var APIKey = "3cc9b3772873588eb5472e5de97869f4";
     // var queryURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&q="  + "&appid=" + APIKey
 
@@ -68,11 +72,27 @@ $(document).ready(function() {
                 currWeather[2] = rainyness;
                 console.log(currWeather)
                 console.log(getIngredient(currWeather));
+                bestIngredient = (getIngredient(currWeather))
+
                 $("#location").text(response.name);
                 $("#cloud").text(response.clouds.all);
                 $("#wind").text(response.wind.speed);
                 $("#humidity").text(response.main.humidity);
                 $("#temperature").text(Math.round(response.main.temp_max));
+
+                //bring in drinks based on best ingredient
+                var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + bestIngredient;
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function(response) {
+                    console.log(response);
+                    const drinks = response.drinks;
+                    const n = drinks.length;
+                    const randomIndex = Math.floor(Math.random() * n);
+                    const randomDrink = drinks[randomIndex];
+                    console.log(randomDrink);
+                });
 
 
 
