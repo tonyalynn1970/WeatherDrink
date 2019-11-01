@@ -4,35 +4,14 @@ $(document).ready(function() {
     const currWeather = [];
     let bestIngredient = ""
     let disDrinks = [{
-            "name": "margarita",
-            "img": "assets/img/margarita.jpg",
-            "recipe": "pour tequila in a shot glass",
-            "ingredients": ["tequila", "lime", "ice"]
-        },
-
-        {
-            "name": "mule",
-            "img": "assets/img/mule.jpg",
-            "recipe": "blah blah balh",
-            "ingredients": ["beer", "vodka", "ice"]
-        }
-    ]
-
-
-    for (let i = 0; i < disDrinks.length; i++) {
+        "name": "",
+        "img": "",
+        "recipe": "",
+        "ingredients": []
+    }]
 
 
 
-        $("#drink-name" + i).text(disDrinks[i].name)
-        for (let j = 0; j < disDrinks[i].ingredients.length; j++) {
-            let listItem = $("<li>").text(disDrinks[i].ingredients[j])
-            $("#ingredients" + i).append(listItem)
-
-
-        }
-        $("#recipe" + i).text(disDrinks[i].recipe)
-        $("img" + i).attr("src", disDrinks[i].img)
-    }
 
 
 
@@ -84,7 +63,6 @@ $(document).ready(function() {
             .then(function(response) {
 
 
-                console.log(response);
 
                 let hotness = isHot(response.main.temp_max)
                 let cloudness = isCloudy(response.clouds.all)
@@ -129,9 +107,17 @@ $(document).ready(function() {
                         let index = 1;
                         let ingredientArray = [];
                         let drinkagain = response.drinks[0]
-                        console.log(response.drinks[0])
-                        console.log(response.drinks[0].strInstructions)
+
+                        console.log(response.drinks[0].strDrink)
+                        disDrinks[0].name = response.drinks[0].strDrink;
+
+                        console.log(response.drinks[0].strInstructions);
+                        disDrinks[0].recipe = response.drinks[0].strInstructions;
+                        console.log("============")
                         console.log(response.drinks[0].strDrinkThumb)
+                        disDrinks[0].img = response.drinks[0].strDrinkThumb;
+                        console.log("++++++++++++++")
+                        console.log(disDrinks[0])
                         while (drinkagain['strIngredient' + index]) {
                             ingredientArray.push({ name: drinkagain['strIngredient' + index], amount: drinkagain['strMeasure' + index] ? drinkagain['strMeasure' + index] : "A dash " });
                             index++;
@@ -139,6 +125,23 @@ $(document).ready(function() {
                         console.log('Drink: ', drinkagain.strDrink);
                         console.log('Ingredients: ');
                         console.log(ingredientArray);
+
+                        for (let i = 0; i < disDrinks.length; i++) {
+
+
+
+                            $("#drink-name" + i).text(disDrinks[i].name)
+                            for (let j = 0; j < disDrinks[i].ingredients.length; j++) {
+                                let listItem = $("<li>").text(disDrinks[i].ingredients[j])
+                                $("#ingredients" + i).append(listItem)
+
+
+                            }
+                            $("#recipe" + i).text(disDrinks[i].recipe)
+                            console.log("------------")
+                            console.log(disDrinks[i].img)
+                            $("#img0").attr("src", disDrinks[i].img)
+                        }
                     });
 
                 });
@@ -224,10 +227,9 @@ $(document).ready(function() {
         return winningIngr;
     };
 
-    bestIngredient = getIngredient(currWeather);
-    console.log(bestIngredient);
 
-    var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + bestIngredient;
-    var Cocktails = []
+
+
+
 
 });
