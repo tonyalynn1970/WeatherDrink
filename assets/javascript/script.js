@@ -72,7 +72,7 @@ $(document).ready(function() {
                 $("#cloud").text(response.clouds.all);
                 $("#wind").text(response.wind.speed);
                 $("#humidity").text(response.main.humidity);
-                $("#temperature").text(response.main.temp_max);
+                $("#temperature").text(Math.round(response.main.temp_max));
 
 
 
