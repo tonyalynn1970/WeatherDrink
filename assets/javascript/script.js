@@ -2,8 +2,38 @@ $(document).ready(function() {
     $(document).foundation();
     // this this out  first is the temp(hot or cold), (second is cloudness needs to be percent), (rain no rain)
     const currWeather = [];
+    bestIngredient = ""
+    let disDrinks = [{
+            "name": "margarita",
+            "img": "assets/img/margarita.jpg",
+            "recipe": "pour tequila in a shot glass",
+            "ingredients": ["tequila", "lime", "ice"]
+        },
 
-    let bestIngredient = ""
+        {
+            "name": "mule",
+            "img": "assets/img/mule.jpg",
+            "recipe": "blah blah balh",
+            "ingredients": ["beer", "vodka", "ice"]
+        }
+    ]
+
+
+    for (let i = 0; i < 2; i++) {
+
+        $("#drink-name" + i).text(disDrinks[i].name)
+        for (let j = 0; j < disDrinks[i].ingredients.length; j++) {
+            let listItem = $("<li>").text(disDrinks[i].ingredients[j])
+            $("#ingredients" + i).append(listItem)
+
+
+        }
+        $("#recipe" + i).text(disDrinks[i].recipe)
+        $("img" + i).attr("src", disDrinks[i].img)
+    }
+
+
+
 
 
 
@@ -33,19 +63,6 @@ $(document).ready(function() {
             "background": "cloudy"
         }
     ]
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     var APIKey = "3cc9b3772873588eb5472e5de97869f4";
@@ -100,9 +117,6 @@ $(document).ready(function() {
                     const randomDrink = drinks[randomIndex];
                     console.log(randomDrink);
                 });
-
-
-
 
             });
         });
