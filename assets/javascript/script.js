@@ -8,7 +8,7 @@ $(document).ready(function() {
 
 
     //randomly creating weather condition
-    let pHConditions = [{
+    let displayConditions = [{
 
             "description": "sun",
             "conditionIcon": "wi-day-sunny",
@@ -188,14 +188,7 @@ $(document).ready(function() {
 
 
 
-    var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + bestIngredient;
-    var Cocktails = []
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function(response) {
-        //do something here with response
-    })
+
 
 
 })
