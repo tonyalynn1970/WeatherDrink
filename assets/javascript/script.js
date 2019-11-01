@@ -1,21 +1,21 @@
-$(document).ready(function () {
+$(document).ready(function() {
     $(document).foundation();
     // this this out  first is the temp(hot or cold), (second is cloudness needs to be percent), (rain no rain)
     const currWeather = [];
-    bestIngredient = ""
+    let bestIngredient = ""
     let disDrinks = [{
-        "name": "margarita",
-        "img": "assets/img/margarita.jpg",
-        "recipe": "pour tequila in a shot glass",
-        "ingredients": ["tequila", "lime", "ice"]
-    },
+            "name": "margarita",
+            "img": "assets/img/margarita.jpg",
+            "recipe": "pour tequila in a shot glass",
+            "ingredients": ["tequila", "lime", "ice"]
+        },
 
-    {
-        "name": "mule",
-        "img": "assets/img/mule.jpg",
-        "recipe": "blah blah balh",
-        "ingredients": ["beer", "vodka", "ice"]
-    }
+        {
+            "name": "mule",
+            "img": "assets/img/mule.jpg",
+            "recipe": "blah blah balh",
+            "ingredients": ["beer", "vodka", "ice"]
+        }
     ]
 
 
@@ -42,28 +42,28 @@ $(document).ready(function () {
     //randomly creating weather condition
     let displayConditions = [{
 
-        "description": "sun",
-        "conditionIcon": "wi-day-sunny",
-        "background": "sunny"
-    },
+            "description": "sun",
+            "conditionIcon": "wi-day-sunny",
+            "background": "sunny"
+        },
 
-    {
-        "description": "rain",
-        "conditionIcon": "wi-day-thunderstorm",
-        "background": "rainy"
-    },
+        {
+            "description": "rain",
+            "conditionIcon": "wi-day-thunderstorm",
+            "background": "rainy"
+        },
 
-    {
-        "description": "snow",
-        "conditionIcon": "wi-day-snow-wind",
-        "background": "snowy"
-    },
+        {
+            "description": "snow",
+            "conditionIcon": "wi-day-snow-wind",
+            "background": "snowy"
+        },
 
-    {
-        "description": "cloud",
-        "conditionIcon": "wi-day-cloudy",
-        "background": "cloudy"
-    }
+        {
+            "description": "cloud",
+            "conditionIcon": "wi-day-cloudy",
+            "background": "cloudy"
+        }
     ]
 
 
@@ -71,7 +71,7 @@ $(document).ready(function () {
     // var queryURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&q="  + "&appid=" + APIKey
 
     if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
+        navigator.geolocation.getCurrentPosition(function(position) {
             const latitude = position.coords.latitude;
             const longintude = position.coords.longitude;
             var queryURL = "http://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" + latitude + "&lon=" + longintude + "&appid=" + APIKey
@@ -81,47 +81,69 @@ $(document).ready(function () {
                 method: "GET"
             })
 
-                .then(function (response) {
+            .then(function(response) {
 
 
-                    console.log(response);
+                console.log(response);
 
-                    let hotness = isHot(response.main.temp_max)
-                    let cloudness = isCloudy(response.clouds.all)
-                    let rainyness = isRaining(response.weather[0].main)
-                    currWeather[0] = hotness;
-                    currWeather[1] = cloudness;
-                    currWeather[2] = rainyness;
+                let hotness = isHot(response.main.temp_max)
+                let cloudness = isCloudy(response.clouds.all)
+                let rainyness = isRaining(response.weather[0].main)
+                currWeather[0] = hotness;
+                currWeather[1] = cloudness;
+                currWeather[2] = rainyness;
 
-                    $("body").addClass(setDisplayCondition(currWeather).background)
+                $("body").addClass(setDisplayCondition(currWeather).background)
 
-                    $("#condition").addClass(setDisplayCondition(currWeather).conditionIcon)
+                $("#condition").addClass(setDisplayCondition(currWeather).conditionIcon)
 
-                    console.log(getIngredient(currWeather));
-                    bestIngredient = (getIngredient(currWeather))
+                console.log(getIngredient(currWeather));
+                bestIngredient = (getIngredient(currWeather))
 
-                    $("#location").text(response.name);
-                    $("#cloud").text(response.clouds.all);
-                    $("#wind").text(response.wind.speed);
-                    $("#humidity").text(response.main.humidity);
-                    $("#temperature").text(Math.round(response.main.temp_max));
+                $("#location").text(response.name);
+                $("#cloud").text(response.clouds.all);
+                $("#wind").text(response.wind.speed);
+                $("#humidity").text(response.main.humidity);
+                $("#temperature").text(Math.round(response.main.temp_max));
 
-                    //bring in drinks based on best ingredient
-                    var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + bestIngredient;
+                //bring in drinks based on best ingredient
+                var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + bestIngredient;
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function(response) {
+                    const drink = response.drinks;
+                    var n = drink.length;
+                    const random = Math.floor(Math.random() * n);
+                    specific = drink[random];
+                    var specificId = specific.idDrink;
+                    console.log(specificId);
+
+                    var queryURL2 = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + specificId;
+
                     $.ajax({
-                        url: queryURL,
+                        url: queryURL2,
                         method: "GET"
-                    }).then(function (response) {
-                        console.log(response);
-                        const drinks = response.drinks;
-                        const n = drinks.length;
-                        const randomIndex = Math.floor(Math.random() * n);
-                        const randomDrink = drinks[randomIndex];
-                        console.log(randomDrink);
+                    }).then(function(response) {
+                        console.log(response)
+                        let index = 1;
+                        let ingredientArray = [];
+                        let drinkagain = response.drinks[0]
+                        console.log(response.drinks[0])
+                        console.log(response.drinks[0].strInstructions)
+                        console.log(response.drinks[0].strDrinkThumb)
+                        while (drinkagain['strIngredient' + index]) {
+                            ingredientArray.push({ name: drinkagain['strIngredient' + index], amount: drinkagain['strMeasure' + index] ? drinkagain['strMeasure' + index] : "A dash " });
+                            index++;
+                        }
+                        console.log('Drink: ', drinkagain.strDrink);
+                        console.log('Ingredients: ');
+                        console.log(ingredientArray);
                     });
 
                 });
-        });
+            });
+        })
     } else {
         alert("Geolocation is not supported by this browser.");
     }
@@ -202,41 +224,10 @@ $(document).ready(function () {
         return winningIngr;
     };
 
-    const bestIngredient = getIngredient(currWeather);
+    bestIngredient = getIngredient(currWeather);
     console.log(bestIngredient);
 
     var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + bestIngredient;
     var Cocktails = []
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).then(function (response) {
 
-
-        const drink = response.drinks;
-        var n = drink.length;
-        const random = Math.floor(Math.random() * n);
-        specific = drink[random];
-        var specificId = specific.idDrink;
-        console.log(specificId);
-
-        var queryURL2 = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + specificId;
-
-        $.ajax({
-            url: queryURL2,
-            method: "GET"
-        }).then(function (response) {
-            console.log(response)
-            let index = 1;
-            let ingredientArray = [];
-            let drinkagain = response.drinks[0]
-            while (drinkagain['strIngredient' + index]) {
-                ingredientArray.push({ name: drinkagain['strIngredient' + index], amount: drinkagain['strMeasure' + index] ? drinkagain['strMeasure' + index] : "A dash " });
-                index++;
-            }
-            console.log('Drink: ', drinkagain.strDrink);
-            console.log('Ingredients: ');
-            console.log(ingredientArray);
-        });
-    });
 });
