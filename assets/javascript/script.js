@@ -19,7 +19,9 @@ $(document).ready(function() {
     ]
 
 
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < disDrinks.length; i++) {
+
+
 
         $("#drink-name" + i).text(disDrinks[i].name)
         for (let j = 0; j < disDrinks[i].ingredients.length; j++) {
