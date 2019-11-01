@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>Drinks Website</title>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+   <div class="container">
+   </div>
+   <script>
+       $(document).ready(function () {
+           $(".container").append("<p> weather </p>");
+       });
+       const currWeather = ["hot", "cloudy", "norain"];
+       function getIngredient(weather) {
+           const ingredientsToWeather = {
+               vodka: { hot: 6, cold: 7, rainy: 6, norain: 5, cloudy: 11, sunny: 6 },
+               gin: { hot: 7, cold: 6, rainy: 9, norain: 4, cloudy: 10, sunny: 7 },
+               whiskey: { hot: 4, cold: 9, rainy: 7, norain: 11, cloudy: 7, sunny: 5 },
+               rum: { hot: 9, cold: 4, rainy: 5, norain: 12, cloudy: 8, sunny: 11 }
+           };
+           const ingredientScores = {};
+           for (let ingr in ingredientsToWeather) {
+               for (let weatherType of weather) {
+                   if (!ingredientScores[ingr]) {
+                       ingredientScores[ingr] = 0;
+                   }
+                   ingredientScores[ingr] += ingredientsToWeather[ingr][weatherType];
+               }
+           }
+           let winningIngr;
+           let winningScore = 0;
+           for (let ingr in ingredientScores) {
+               if (ingredientScores[ingr] > winningScore) {
+                   winningScore = ingredientScores[ingr];
+                   winningIngr = ingr;
+               }
+           }
+           return winningIngr;
+       }
+       const bestIngredient = getIngredient(currWeather);
+       console.log(bestIngredient);
+      var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + bestIngredient;
+       $.ajax({
+          url: queryURL,
+          method: "GET"
+      }).then(function (response) {
+          console.log(response);
+          const drinks = response.drinks;
+          const n = drinks.length;
+          const randomIndex = Math.floor(Math.random() * n);
+          const randomDrink = drinks[randomIndex];
+          console.log(randomDrink);
+          });
+
+        
+
+
+
+
+</script>
+</body>
+</html>
