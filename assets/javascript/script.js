@@ -2,12 +2,14 @@ $(document).ready(function() {
     $(document).foundation();
     // this this out  first is the temp(hot or cold), (second is cloudness needs to be percent), (rain no rain)
     const currWeather = [];
+
     let bestIngredient = ""
 
 
 
     //randomly creating weather condition
     let pHConditions = [{
+
             "description": "sun",
             "conditionIcon": "wi-day-sunny",
             "background": "sunny"
@@ -34,14 +36,14 @@ $(document).ready(function() {
 
 
 
-    let condDisplay = pHConditions[randomize(0, pHConditions.length)];
 
 
 
 
 
-    $("body").addClass(condDisplay.background)
-    $("#condition").addClass(condDisplay.conditionIcon)
+
+
+
 
 
 
@@ -64,13 +66,18 @@ $(document).ready(function() {
 
 
                 console.log(response);
+
                 let hotness = isHot(response.main.temp_max)
                 let cloudness = isCloudy(response.clouds.all)
                 let rainyness = isRaining(response.weather[0].main)
                 currWeather[0] = hotness;
                 currWeather[1] = cloudness;
                 currWeather[2] = rainyness;
-                console.log(currWeather)
+
+                $("body").addClass(setDisplayCondition(currWeather).background)
+
+                $("#condition").addClass(setDisplayCondition(currWeather).conditionIcon)
+
                 console.log(getIngredient(currWeather));
                 bestIngredient = (getIngredient(currWeather))
 
@@ -132,6 +139,17 @@ $(document).ready(function() {
             return "rainy"
         } else {
             return "norain"
+        }
+    }
+
+    //determines what to set the background to 
+    function setDisplayCondition(input) {
+        if (input[2] === "rainy") {
+            return displayConditions[2]
+        } else if (input[1] === "cloudy") {
+            return displayConditions[3]
+        } else {
+            return displayConditions[0]
         }
     }
 
