@@ -73,6 +73,7 @@ $(document).ready(function() {
                 $("#cloud").text(response.clouds.all);
                 $("#wind").text(response.wind.speed);
                 $("#humidity").text(response.main.humidity);
+
                 $("#temperature").text(Math.round(response.main.temp_max));
 
                 //bring in drinks based on best ingredient
@@ -112,8 +113,8 @@ $(document).ready(function() {
                             index++;
                         }
                         disDrinks[0].ingredients = ingredientArray;
-                        console.log(disDrinks[0].ingredients)
-                            // adds the suggested drink to the display
+
+                        // adds the suggested drink to the display
                         for (let i = 0; i < disDrinks.length; i++) {
 
                             $("#drink-name" + i).text(disDrinks[i].name);

@@ -27,11 +27,11 @@
                 <div class="bg-opac ">
                     <h2><span id="location ">Atlanta, GA</span></h2>
 
-                    <h1><span id="temperature "></span>&#176;</h1>
-                    <h1>clouds: <span id="cloud "></h1>
-                        <h1>wind: <span id="wind "></h1>
-                        <h1>humidity: <span id="humidity "></h1>
-                        <h1><i id="condition " class="wi "></i>
+                    <h1><span id="temperature"></span>&#176;</h1>
+                    <h1>clouds: <span id="cloud"></h1>
+                        <h1>wind: <span id="wind"></h1>
+                        <h1>humidity: <span id="humidity"></h1>
+                        <h1><i id="condition" class="wi "></i>
                         </h1>
                         <hr>
                         <p>Hello! This site looks at the weather and then give you a drink recommendation!</p>
@@ -44,25 +44,22 @@
 
                 <div class="cell large-offset-1 large-6 ">
                     <div id="drink-slideshow">
-                        <div>
-                                
-                                        <img id="img1 " class="orbit-image " src="assets/img/mule.jpg " alt="mule ">
-                                       
-                                            <h3 id="drink-name1 " class="text-center ">Moscow Mule</h3>
-                                         
-                                   
-                                    
+                        <div class="slide">
+                             <img id="img0">
+                             <div class="slide-caption">
+                                <h3 id="drink-name0" class="text-center "></h3>
+                                <div class="grid-x">
+                                    <div class="cell large-6">
+                                        <ul id="ingredients0"></ul>
+                                    </div>
+                                    <div class="cell large-6">
+                                        <p id="recipe0"></p>
+                                    </div>
+                                </div>
+                             </div>             
                         </div>
 
-                        <div>
-                                
-                                        <img id="img1 " class="orbit-image " src="assets/img/margarita.jpg " alt="mule ">
-                                      
-                                            <h3 id="drink-name1 " class="text-center ">magarita</h3>
-                                           
-                                     
-                                 
-                        </div>
+                    
                     </div>
 
 
@@ -74,7 +71,7 @@
         </div>
     </div>
 
-
+    <button id="add-slide">add slide</button>
     
 
 
@@ -86,6 +83,13 @@
             $('#drink-slideshow').slick({
                 "arrows":true
             });
+            let num = 0
+            $("#add-slide").on('click', function() {
+                console.log("adding slide")
+                
+                num++;
+                $("#drink-slideshow").slick('slickAdd','<div><h3> + num + '</h3></div>');
+                });
         });
     </script>
 </body>

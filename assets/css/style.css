@@ -16,7 +16,29 @@
     opacity: 0.5;
     filter: alpha(opacity=50);
     z-index: 1;
-    height: 92%;
+    height: 100%;
+}
+
+.slide {
+    position: relative;
+}
+
+.slide-caption {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    width: 100%;
+    background-color: black;
+    color: white;
+    padding-left: 20px;
+    padding-right: 20px;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.slide-caption:hover {
+    opacity: 0.8;
+    filter: alpha(opacity=80);
 }
 
 .sunny {
