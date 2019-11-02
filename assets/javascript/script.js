@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $(document).foundation();
-    // this this out  first is the temp(hot or cold), (second is cloudness needs to be percent), (rain no rain)
+
     const currWeather = [];
     let bestIngredient = ""
     let disDrinks = [{
@@ -10,15 +10,7 @@ $(document).ready(function() {
         "ingredients": []
     }]
 
-
-
-
-
-
-
-
-
-    //randomly creating weather condition
+    // used for setting the display of the weather icon and background
     let displayConditions = [{
 
             "description": "sun",
@@ -45,10 +37,10 @@ $(document).ready(function() {
         }
     ]
 
-
+    //open weather map api key
     var APIKey = "3cc9b3772873588eb5472e5de97869f4";
-    // var queryURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&q="  + "&appid=" + APIKey
 
+    // gets the users current location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             const latitude = position.coords.latitude;
@@ -63,7 +55,7 @@ $(document).ready(function() {
             .then(function(response) {
 
 
-
+                // checks the  conditions and sets them to an array currWeather used the get ingredient function
                 let hotness = isHot(response.main.temp_max)
                 let cloudness = isCloudy(response.clouds.all)
                 let rainyness = isRaining(response.weather[0].main)
@@ -71,13 +63,12 @@ $(document).ready(function() {
                 currWeather[1] = cloudness;
                 currWeather[2] = rainyness;
 
-                $("body").addClass(setDisplayCondition(currWeather).background)
-
-                $("#condition").addClass(setDisplayCondition(currWeather).conditionIcon)
-
-                console.log(getIngredient(currWeather));
+                // runs the logic to select the ingredient we recommend
                 bestIngredient = (getIngredient(currWeather))
 
+                //adds the weather to the DOM
+                $("body").addClass(setDisplayCondition(currWeather).background)
+                $("#condition").addClass(setDisplayCondition(currWeather).conditionIcon)
                 $("#location").text(response.name);
                 $("#cloud").text(response.clouds.all);
                 $("#wind").text(response.wind.speed);
@@ -90,57 +81,49 @@ $(document).ready(function() {
                     url: queryURL,
                     method: "GET"
                 }).then(function(response) {
+
+                    //selects a random drink from the list of 10 responses 
                     const drink = response.drinks;
                     var n = drink.length;
                     const random = Math.floor(Math.random() * n);
                     specific = drink[random];
                     var specificId = specific.idDrink;
-                    console.log(specificId);
 
+                    // looks up the details of the specific drink
                     var queryURL2 = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + specificId;
 
                     $.ajax({
                         url: queryURL2,
                         method: "GET"
                     }).then(function(response) {
-                        console.log(response)
+
                         let index = 1;
                         let ingredientArray = [];
-                        let drinkagain = response.drinks[0]
+                        let drinkAgain = response.drinks[0]
 
-                        console.log(response.drinks[0].strDrink)
-                        disDrinks[0].name = response.drinks[0].strDrink;
+                        // adds the drinks details to the display array
+                        disDrinks[0].name = drinkAgain.strDrink;
+                        disDrinks[0].recipe = drinkAgain.strInstructions;
+                        disDrinks[0].img = drinkAgain.strDrinkThumb;
 
-                        console.log(response.drinks[0].strInstructions);
-                        disDrinks[0].recipe = response.drinks[0].strInstructions;
-                        console.log("============")
-                        console.log(response.drinks[0].strDrinkThumb)
-                        disDrinks[0].img = response.drinks[0].strDrinkThumb;
-                        console.log("++++++++++++++")
-                        console.log(disDrinks[0])
-                        while (drinkagain['strIngredient' + index]) {
-                            ingredientArray.push({ name: drinkagain['strIngredient' + index], amount: drinkagain['strMeasure' + index] ? drinkagain['strMeasure' + index] : "A dash " });
+                        // used to grab all the ingredients and their measurements and formats the the way we want
+                        while (drinkAgain['strIngredient' + index]) {
+                            ingredientArray.push({ name: drinkAgain['strIngredient' + index], amount: drinkAgain['strMeasure' + index] ? drinkAgain['strMeasure' + index] : "A dash " });
                             index++;
                         }
-                        console.log('Drink: ', drinkagain.strDrink);
-                        console.log('Ingredients: ');
-                        console.log(ingredientArray);
-
+                        disDrinks[0].ingredients = ingredientArray;
+                        console.log(disDrinks[0].ingredients)
+                            // adds the suggested drink to the display
                         for (let i = 0; i < disDrinks.length; i++) {
 
-
-
-                            $("#drink-name" + i).text(disDrinks[i].name)
+                            $("#drink-name" + i).text(disDrinks[i].name);
                             for (let j = 0; j < disDrinks[i].ingredients.length; j++) {
-                                let listItem = $("<li>").text(disDrinks[i].ingredients[j])
-                                $("#ingredients" + i).append(listItem)
-
-
+                                let listItem = $("<li>").html(disDrinks[i].ingredients[j].amount + "<b> " + disDrinks[i].ingredients[j].name + "</b>");
+                                $("#ingredients" + i).append(listItem);
                             }
-                            $("#recipe" + i).text(disDrinks[i].recipe)
-                            console.log("------------")
-                            console.log(disDrinks[i].img)
-                            $("#img0").attr("src", disDrinks[i].img)
+
+                            $("#recipe" + i).text(disDrinks[i].recipe);
+                            $("#img0").attr("src", disDrinks[i].img);
                         }
                     });
 
@@ -148,8 +131,10 @@ $(document).ready(function() {
             });
         })
     } else {
+        // throws an alert if geolocation isnt supported
         alert("Geolocation is not supported by this browser.");
     }
+
 
     //functions
     // function for random
@@ -174,7 +159,7 @@ $(document).ready(function() {
         }
     }
 
-    //is is raining
+    //determines if its raining
     function isRaining(input) {
         if (input === "Rain" || input === "Thunderstorm") {
             return "rainy"
@@ -193,7 +178,7 @@ $(document).ready(function() {
             return displayConditions[0]
         }
     }
-
+    // takes in the weather and suggests a ingredient
     function getIngredient(weather) {
 
         const ingredientsToWeather = {
@@ -226,10 +211,6 @@ $(document).ready(function() {
         }
         return winningIngr;
     };
-
-
-
-
 
 
 });
