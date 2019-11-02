@@ -4,32 +4,34 @@
 
     <title>Daily Booze</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css" integrity="sha256-1mcRjtAxlSjp6XJBgrBeeCORfBp/ppyX4tsvpQVCcpA= sha384-b5S5X654rX3Wo6z5/hnQ4GBmKuIJKMPwrJXn52ypjztlnDK2w9+9hSMBz/asy9Gw sha512-M1VveR2JGzpgWHb0elGqPTltHK3xbvu3Brgjfg4cg5ZNtyyApxw/45yHYsZ/rCVbfoO5MSZxB241wWq642jLtA=="
-        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/css/foundation.min.css">
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/vendor/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js" integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw=="
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js"></script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/motion-ui/1.1.1/motion-ui.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.0.1/js/foundation.min.js"></script>
     <link rel="stylesheet" href="assets/css/weather-icons.min.css">
-    <link rel="stylesheet" href="assets/css/style.css" </head>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" charset="UTF-8" />
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
 
-    <body>
-        <div class="grid-container">
-            <div class="grid-x">
+<body>
+    <div class="grid-container ">
+        <div class="grid-x ">
 
-                <div class="weather-holder cell large-offset-1 large-4">
-                    <div class="bg-opac">
-                        <h2><span id="location">Atlanta, GA</span></h2>
+            <div class="weather-holder cell large-offset-1 large-4 ">
+                <div class="bg-opac ">
+                    <h2><span id="location ">Atlanta, GA</span></h2>
 
-                        <h1><span id="temperature"></span>&#176;</h1>
-                        <h1>clouds: <span id="cloud"></h1>
-                        <h1>wind: <span id="wind"></h1>
-                        <h1>humidity: <span id="humidity"></h1>
-                        <h1><i id="condition" class="wi"></i>
+                    <h1><span id="temperature "></span>&#176;</h1>
+                    <h1>clouds: <span id="cloud "></h1>
+                        <h1>wind: <span id="wind "></h1>
+                        <h1>humidity: <span id="humidity "></h1>
+                        <h1><i id="condition " class="wi "></i>
                         </h1>
                         <hr>
                         <p>Hello! This site looks at the weather and then give you a drink recommendation!</p>
@@ -40,45 +42,52 @@
 
 
 
-                <div class="cell  large-offset-1 large-6">
-                    <div class="orbit" role="region" data-orbit data-use-m-u-i="false">
-                        <ul id="drink-slideshow" class="orbit-container">
-                            <button class="orbit-previous" aria-label="previous"><span class = "show-for-sr">Previous Slide</span>◀</button>
-                            <button class="orbit-next" aria-label="next"><span class = "show-for-sr">Next Slide</span>▶</button>
+                <div class="cell large-offset-1 large-6 ">
+                    <div id="drink-slideshow">
+                        <div>
+                                
+                                        <img id="img1 " class="orbit-image " src="assets/img/mule.jpg " alt="mule ">
+                                       
+                                            <h3 id="drink-name1 " class="text-center ">Moscow Mule</h3>
+                                         
+                                   
+                                    
+                        </div>
 
-                            <li class="is-active orbit-slide">
-                                <figure class="orbit-figure">
-                                    <img id="img0" class="orbit-image" src="" alt="Hang tight we are grabbing your drink">
-                                    <figcaption class="orbit-caption">
-                                        <h3 id="drink-name0" class="text-center"></h3>
-                                        <ul id="ingredients0"></ul>
-                                        <p id="recipe0"></p>
-                                    </figcaption>
-                                </figure>
-                            </li>
-
-                            <li class="is-active orbit-slide">
-                                <figure class="orbit-figure">
-                                    <img id="img1" class="orbit-image" src="assets/img/mule.jpg" alt="mule">
-                                    <figcaption class="orbit-caption">
-                                        <h3 id="drink-name1" class="text-center">Moscow Mule</h3>
-                                        <ul id="ingredients1"></ul>
-                                        <p id="recipe1"></p>
-                                    </figcaption>
-                                </figure>
-                            </li>
-                            </ul>
-
-
+                        <div>
+                                
+                                        <img id="img1 " class="orbit-image " src="assets/img/margarita.jpg " alt="mule ">
+                                      
+                                            <h3 id="drink-name1 " class="text-center ">magarita</h3>
+                                           
+                                     
+                                 
+                        </div>
                     </div>
+
+
+                    
+                     
+
                 </div>
             </div>
         </div>
+    </div>
 
 
+    
 
 
-        <script src="assets/javascript/script.js"></script>
-    </body>
+    <script type="text/javascript " src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js "></script>
+    <script src="assets/javascript/script.js "></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#drink-slideshow').slick({
+                "arrows":true
+            });
+        });
+    </script>
+</body>
 
 </html>
