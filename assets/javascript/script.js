@@ -1,6 +1,10 @@
 $(document).ready(function() {
+
     $(document).foundation();
 
+
+
+    let slideCount = 1;
     const currWeather = [];
     let bestIngredient = ""
     let disDrinks = [{
@@ -8,6 +12,11 @@ $(document).ready(function() {
         "img": "",
         "recipe": "",
         "ingredients": []
+    }, {
+        "name": "Moscow Mule",
+        "img": "assets/img/mule.jpg",
+        "recipe": "put some stuff in a tin cup",
+        "ingredients": [{ "name": "vodka", "amount": "2oz" }, { "name": "lime juice", "amount": "3oz" }]
     }]
 
     // used for setting the display of the weather icon and background
@@ -37,10 +46,34 @@ $(document).ready(function() {
         }
     ]
 
-    //open weather map api key
-    var APIKey = "3cc9b3772873588eb5472e5de97869f4";
 
-    // gets the users current location
+
+    $('#drink-slideshow').slick({
+        "arrows": true
+    });
+
+
+    //open weather map api key
+    var APIKey = "5af2d38e7be7d61c1c6ad8b593ca7cdf";
+
+    // removes the load screen when clicked
+    $("#loading").on("click", function() {
+            $("#loading").hide();
+
+        })
+        // gets a drink for the new location the user inputs
+    $("#loc-search").on("click", function() {
+
+
+
+            let newLocation = $("#loc-value").val().trim();
+            $("#drink-slideshow").slick('slickAdd', '<div class="slide"><img id="img' + slideCount + '"><div class="slide-caption"><h3 id="drink-name' + slideCount + '" class="text-center"></h3><div class="grid-x"><div class="cell large-6"><ul id="ingredients' + slideCount + '"></ul></div><div class="cell large-6"><p id="recipe' + slideCount + '">stuff</p></div></div></div></div>');
+            drinkToDisplay(slideCount);
+            slideCount++;
+
+
+        })
+        // gets the users current location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             const latitude = position.coords.latitude;
@@ -53,12 +86,13 @@ $(document).ready(function() {
             })
 
             .then(function(response) {
-
+                //hides the load screen
+                $("#loading").hide();
 
                 // checks the  conditions and sets them to an array currWeather used the get ingredient function
-                let hotness = isHot(response.main.temp_max)
-                let cloudness = isCloudy(response.clouds.all)
-                let rainyness = isRaining(response.weather[0].main)
+                let hotness = isHot(response.main.temp_max);
+                let cloudness = isCloudy(response.clouds.all);
+                let rainyness = isRaining(response.weather[0].main);
                 currWeather[0] = hotness;
                 currWeather[1] = cloudness;
                 currWeather[2] = rainyness;
@@ -71,7 +105,8 @@ $(document).ready(function() {
                 $("#condition").addClass(setDisplayCondition(currWeather).conditionIcon)
                 $("#location").text(response.name);
                 $("#cloud").text(response.clouds.all);
-                $("#wind").text(response.wind.speed);
+                $("#wind-speed").text(response.wind.speed);
+
                 $("#humidity").text(response.main.humidity);
 
                 $("#temperature").text(Math.round(response.main.temp_max));
@@ -115,17 +150,7 @@ $(document).ready(function() {
                         disDrinks[0].ingredients = ingredientArray;
 
                         // adds the suggested drink to the display
-                        for (let i = 0; i < disDrinks.length; i++) {
-
-                            $("#drink-name" + i).text(disDrinks[i].name);
-                            for (let j = 0; j < disDrinks[i].ingredients.length; j++) {
-                                let listItem = $("<li>").html(disDrinks[i].ingredients[j].amount + "<b> " + disDrinks[i].ingredients[j].name + "</b>");
-                                $("#ingredients" + i).append(listItem);
-                            }
-
-                            $("#recipe" + i).text(disDrinks[i].recipe);
-                            $("#img0").attr("src", disDrinks[i].img);
-                        }
+                        drinkToDisplay(0);
                     });
 
                 });
@@ -138,6 +163,22 @@ $(document).ready(function() {
 
 
     //functions
+
+
+    function drinkToDisplay(input) {
+
+
+        $("#drink-name" + input).text(disDrinks[input].name);
+        for (let j = 0; j < disDrinks[input].ingredients.length; j++) {
+            let listItem = $("<li>").html(disDrinks[input].ingredients[j].amount + "<b> " + disDrinks[input].ingredients[j].name + "</b>");
+
+            $("#ingredients" + input).append(listItem);
+        }
+
+        $("#recipe" + input).text(disDrinks[input].recipe);
+        $("#img" + input).attr("src", disDrinks[input].img);
+
+    }
     // function for random
     function randomize(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
