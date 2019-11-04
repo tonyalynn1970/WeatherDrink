@@ -1,113 +1,114 @@
-.grid-container {
-    margin: 2%;
-}
-
-.cell {
-    float: left;
-}
-
-.weather-holder {
-    color: white;
-}
-
-.weather-holder-text {
-    padding: 10px;
-}
-
-.bg-opac {
-    width: 100%;
-    background-color: black;
-    opacity: 0.5;
-    filter: alpha(opacity=50);
-    z-index: 1;
-    height: 100%;
-}
-
-.slide {
-    position: relative;
-}
-
-.slide-caption {
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    width: 100%;
-    background-color: black;
-    color: white;
-    padding-left: 20px;
-    padding-right: 20px;
-    opacity: 0.5;
-    filter: alpha(opacity=50);
-}
-
-.slide-caption:hover {
-    opacity: 0.8;
-    filter: alpha(opacity=80);
-}
-
-.sunny {
-    background-color: lightskyblue;
-    background-image: url(../img/sunny.jpg);
-    background-size: cover;
-    -ms-background-size: cover;
-    -o-background-size: cover;
-    -moz-background-size: cover;
-    -webkit-background-size: cover;
-}
-
-.cloudy {
-    background-color: darkblue;
-    background-image: url(../img/cloudy.jpeg);
-    background-size: cover;
-    -ms-background-size: cover;
-    -o-background-size: cover;
-    -moz-background-size: cover;
-    -webkit-background-size: cover;
-}
-
-.rainy {
-    background-color: grey;
-    background-image: url(../img/rainy.jpeg);
-    background-size: cover;
-    -ms-background-size: cover;
-    -o-background-size: cover;
-    -moz-background-size: cover;
-    -webkit-background-size: cover;
-}
-
-.snowy {
-    background-color: lightgrey;
-    background-image: url(../img/snowy.jpeg);
-    background-size: cover;
-    -ms-background-size: cover;
-    -o-background-size: cover;
-    -moz-background-size: cover;
-    -webkit-background-size: cover;
-}
-
-#condition {
-    font-size: 4em;
-    float: right;
-    margin: 20px;
-}
-
-#loading-text {
-    position: fixed;
-    top: 20%;
-    left: 40%;
-    z-index: 9999;
-    background-color: lightgrey;
-    padding: 10px 30px;
-}
-
-#loading-background {
-    position: fixed;
-    left: 0px;
-    top: 0px;
-    width: 100%;
-    height: 100%;
-    z-index: 7000;
-    background-color: black;
-    opacity: 0.8;
-    filter: alpha(opacity=80);
-}
+    .grid-container {
+        margin: 2%;
+    }
+    
+    .cell {
+        float: left;
+    }
+    
+    .weather-holder {
+        color: white;
+    }
+    
+    .weather-holder-text {
+        padding: 10px;
+    }
+    
+    .bg-opac {
+        width: 100%;
+        background-color: black;
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+        z-index: 1;
+        height: 100%;
+    }
+    
+    .slide {
+        position: relative;
+    }
+    
+    .slide-caption {
+        position: absolute;
+        right: 0px;
+        bottom: 0px;
+        width: 100%;
+        background-color: black;
+        color: white;
+        padding-left: 20px;
+        padding-right: 20px;
+        opacity: 0.5;
+        filter: alpha(opacity=50);
+    }
+    
+    .slide-caption:hover {
+        opacity: 0.8;
+        filter: alpha(opacity=80);
+    }
+    
+    .sunny {
+        background-color: lightskyblue;
+        background-image: url(../img/sunny.jpg);
+        background-size: cover;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+    }
+    
+    .cloudy {
+        background-color: darkblue;
+        background-image: url(../img/cloudy.jpeg);
+        background-size: cover;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+    }
+    
+    .rainy {
+        background-color: grey;
+        background-image: url(../img/rainy.jpeg);
+        background-size: cover;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+    }
+    
+    .snowy {
+        background-color: lightgrey;
+        background-image: url(../img/snowy.jpeg);
+        background-size: cover;
+        -ms-background-size: cover;
+        -o-background-size: cover;
+        -moz-background-size: cover;
+        -webkit-background-size: cover;
+    }
+    
+    #condition {
+        font-size: 4em;
+        float: right;
+        margin: 20px;
+    }
+    
+    #loading-text {
+        position: fixed;
+        top: 20%;
+        left: 40%;
+        z-index: 9999;
+        background-color: lightgrey;
+        padding: 10px 30px;
+        border-radius: 10px;
+    }
+    
+    #loading-background {
+        position: fixed;
+        left: 0px;
+        top: 0px;
+        width: 100%;
+        height: 100%;
+        z-index: 7000;
+        background-color: black;
+        opacity: 0.8;
+        filter: alpha(opacity=80);
+    }

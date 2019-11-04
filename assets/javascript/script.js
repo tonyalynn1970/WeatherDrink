@@ -5,6 +5,11 @@ $(document).ready(function() {
         $("#loading").hide();
 
     })
+
+    $("#loc-search").on("click", function() {
+        let newLocation = $("#loc-value").val();
+
+    })
     const currWeather = [];
     let bestIngredient = ""
     let disDrinks = [{
@@ -68,6 +73,7 @@ $(document).ready(function() {
             })
 
             .then(function(response) {
+                //hides the load screen
                 $("#loading").hide();
 
                 // checks the  conditions and sets them to an array currWeather used the get ingredient function
