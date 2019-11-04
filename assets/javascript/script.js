@@ -4,11 +4,6 @@ $(document).ready(function() {
 
 
 
-
-
-
-
-
     let slideCount = 1;
     const currWeather = [];
     let bestIngredient = ""
@@ -68,6 +63,8 @@ $(document).ready(function() {
         })
         // gets a drink for the new location the user inputs
     $("#loc-search").on("click", function() {
+
+
 
             let newLocation = $("#loc-value").val().trim();
             $("#drink-slideshow").slick('slickAdd', '<div class="slide"><img id="img' + slideCount + '"><div class="slide-caption"><h3 id="drink-name' + slideCount + '" class="text-center"></h3><div class="grid-x"><div class="cell large-6"><ul id="ingredients' + slideCount + '"></ul></div><div class="cell large-6"><p id="recipe' + slideCount + '">stuff</p></div></div></div></div>');
@@ -174,7 +171,7 @@ $(document).ready(function() {
         $("#drink-name" + input).text(disDrinks[input].name);
         for (let j = 0; j < disDrinks[input].ingredients.length; j++) {
             let listItem = $("<li>").html(disDrinks[input].ingredients[j].amount + "<b> " + disDrinks[input].ingredients[j].name + "</b>");
-            console.log(listItem)
+
             $("#ingredients" + input).append(listItem);
         }
 
