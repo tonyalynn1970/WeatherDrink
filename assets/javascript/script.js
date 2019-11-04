@@ -37,6 +37,17 @@ $(document).ready(function() {
         }
     ]
 
+    $('#drink-slideshow').slick({
+        "arrows": true
+    });
+    let num = 0
+    $("#add-slide").on('click', function() {
+        console.log("adding slide")
+
+        num++;
+        $("#drink-slideshow").slick('slickAdd', "<div><h3>" + num + "</h3></div>");
+    });
+
     //open weather map api key
     var APIKey = "3cc9b3772873588eb5472e5de97869f4";
 
@@ -54,11 +65,11 @@ $(document).ready(function() {
 
             .then(function(response) {
 
-
+                console.log(response);
                 // checks the  conditions and sets them to an array currWeather used the get ingredient function
-                let hotness = isHot(response.main.temp_max)
-                let cloudness = isCloudy(response.clouds.all)
-                let rainyness = isRaining(response.weather[0].main)
+                let hotness = isHot(response.main.temp_max);
+                let cloudness = isCloudy(response.clouds.all);
+                let rainyness = isRaining(response.weather[0].main);
                 currWeather[0] = hotness;
                 currWeather[1] = cloudness;
                 currWeather[2] = rainyness;
@@ -71,7 +82,8 @@ $(document).ready(function() {
                 $("#condition").addClass(setDisplayCondition(currWeather).conditionIcon)
                 $("#location").text(response.name);
                 $("#cloud").text(response.clouds.all);
-                $("#wind").text(response.wind.speed);
+                $("#wind-speed").text(response.wind.speed);
+
                 $("#humidity").text(response.main.humidity);
 
                 $("#temperature").text(Math.round(response.main.temp_max));

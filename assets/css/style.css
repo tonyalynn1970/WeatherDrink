@@ -10,6 +10,10 @@
     color: white;
 }
 
+.weather-holder-text {
+    padding: 10px;
+}
+
 .bg-opac {
     width: 100%;
     background-color: black;
@@ -79,4 +83,10 @@
     -o-background-size: cover;
     -moz-background-size: cover;
     -webkit-background-size: cover;
+}
+
+#condition {
+    font-size: 4em;
+    float: right;
+    margin: 20px;
 }
