@@ -1,6 +1,10 @@
 $(document).ready(function() {
-    $(document).foundation();
 
+    $(document).foundation();
+    $("#loading").on("click", function() {
+        $("#loading").hide();
+
+    })
     const currWeather = [];
     let bestIngredient = ""
     let disDrinks = [{
@@ -49,7 +53,7 @@ $(document).ready(function() {
     });
 
     //open weather map api key
-    var APIKey = "3cc9b3772873588eb5472e5de97869f4";
+    var APIKey = "5af2d38e7be7d61c1c6ad8b593ca7cdf";
 
     // gets the users current location
     if (navigator.geolocation) {
@@ -64,8 +68,8 @@ $(document).ready(function() {
             })
 
             .then(function(response) {
+                $("#loading").hide();
 
-                console.log(response);
                 // checks the  conditions and sets them to an array currWeather used the get ingredient function
                 let hotness = isHot(response.main.temp_max);
                 let cloudness = isCloudy(response.clouds.all);
