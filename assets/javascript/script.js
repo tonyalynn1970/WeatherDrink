@@ -166,10 +166,11 @@ $(document).ready(function() {
     function getIngredient(weather) {
 
         const ingredientsToWeather = {
-            vodka: { hot: 6, cold: 7, rainy: 6, norain: 5, cloudy: 11, sunny: 6 },
-            gin: { hot: 7, cold: 6, rainy: 9, norain: 4, cloudy: 10, sunny: 7 },
-            whiskey: { hot: 4, cold: 9, rainy: 7, norain: 11, cloudy: 7, sunny: 5 },
-            rum: { hot: 9, cold: 4, rainy: 5, norain: 12, cloudy: 8, sunny: 11 }
+            vodka: { hot: 1, cold: 5, rainy: 3, norain: 2, cloudy: 3, sunny: 4 },
+            gin: { hot: 3, cold: 3, rainy: 4, norain: 1, cloudy: 4, sunny: 2 },
+            whiskey: { hot: 2, cold: 4, rainy: 5, norain: 5, cloudy: 5, sunny: 1 },
+            rum: { hot: 4, cold: 2, rainy: 1, norain: 3, cloudy: 2, sunny: 4 },
+            Tequila: { hot: 5, cold: 1, rainy: 2, norain: 4, cloudy: 1, sunny: 5 }
         };
 
         const ingredientScores = {};
