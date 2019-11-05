@@ -7,7 +7,7 @@ $(document).ready(function() {
     let slideCount = 0;
     const currWeather = [];
     const newWeather = [];
-
+    let currentCity;
     let bestIngredient = ""
     let disDrinks = []
 
@@ -41,7 +41,10 @@ $(document).ready(function() {
 
     //config for slick slideshow
     $('#drink-slideshow').slick({
-        "arrows": true
+        "arrows": true,
+        "autoplay": true,
+        "autoplaySpeed": 5000,
+
     });
 
 
@@ -55,23 +58,17 @@ $(document).ready(function() {
         })
         // gets a drink for the new location the user inputs
     $("#loc-search").on("click", function() {
-            slideCount++;
-            let cityLocation = $("#loc-value").val().trim();
+        slideCount++;
+        let cityLocation = $("#loc-value").val().trim();
 
-            getWeatherFor(cityLocation);
-
-
+        getWeatherFor(cityLocation);
 
 
-
+    })
 
 
 
-
-
-
-        })
-        // gets the users current location
+    // gets the users current location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             const latitude = position.coords.latitude;
@@ -86,25 +83,16 @@ $(document).ready(function() {
             .then(function(response) {
                 //hides the load screen
                 $("#loading").hide();
-
-                // checks the  conditions and sets them to an array currWeather used the get ingredient function
-
+                currentCity = response.name
+                console.log(currentCity)
                 currWeather[0] = isHot(response.main.temp_max);
                 currWeather[1] = isCloudy(response.clouds.all);
                 currWeather[2] = isRaining(response.weather[0].main);
                 // runs the logic to select the ingredient we recommend
                 bestIngredient = (getIngredient(currWeather))
+                    // checks the  conditions and sets them to an array currWeather used the get ingredient function
 
-                //adds the weather to the DOM
-                $("body").addClass(setDisplayCondition(currWeather).background)
-                $("#condition").addClass(setDisplayCondition(currWeather).conditionIcon)
-                $("#location").text(response.name);
-                $("#cloud").text(response.clouds.all);
-                $("#wind-speed").text(response.wind.speed);
-
-                $("#humidity").text(response.main.humidity);
-
-                $("#temperature").text(Math.round(response.main.temp_max));
+                weathertoDisplay(response);
 
                 //bring in drinks based on best ingredient
                 callDrinks(bestIngredient, slideCount)
@@ -229,7 +217,7 @@ $(document).ready(function() {
                     method: "GET"
                 })
                 .then(function(response) {
-
+                    currentCity = response.name;
                     newArray = [(isHot(response.main.temp_max)),
                         (isCloudy(response.clouds.all)),
                         (isRaining(response.weather[0].main))
@@ -237,7 +225,7 @@ $(document).ready(function() {
                     let nextSuggestion = getIngredient(newArray)
                     callDrinks(nextSuggestion, slideCount);
 
-
+                    weathertoDisplay(response);
 
                 })
 
@@ -276,10 +264,6 @@ $(document).ready(function() {
                 let ingredientArray = [];
                 let drinkAgain = response.drinks[0]
 
-                // adds the drinks details to the display array
-                // disDrinks[num].name = drinkAgain.strDrink;
-                // disDrinks[num].recipe = drinkAgain.strInstructions;
-                // disDrinks[num].img = drinkAgain.strDrinkThumb;
 
                 // used to grab all the ingredients and their measurements and formats the the way we want
                 while (drinkAgain['strIngredient' + index]) {
@@ -296,12 +280,29 @@ $(document).ready(function() {
 
                 // adds the suggested drink to the display
 
-                $("#drink-slideshow").slick('slickAdd', '<div class="slide"><img id="img' + slideCount + '"><div class="slide-caption"><h3 id="drink-name' + slideCount + '" class="text-center"></h3><div class="grid-x"><div class="cell large-6"><ul id="ingredients' + slideCount + '"></ul></div><div class="cell large-6"><p id="recipe' + slideCount + '"></p></div></div></div></div>');
+                $("#drink-slideshow").slick('slickAdd', '<div class="slide"><img id="img' + slideCount + '"><div class="slide-caption"><h3 id="drink-name' + slideCount + '" class="text-center"></h3><div class="grid-x"><div class="cell large-6"><ul id="ingredients' + slideCount + '"></ul></div><div class="cell large-6"><p id="recipe' + slideCount + '"></p></div><p class="city">Drink for: <b>' + currentCity + '</b></p></div></div></div>');
                 drinkToDisplay(num);
+                $("#drink-slideshow").slick('slickNext');
 
             });
 
         });
+    }
+
+    function weathertoDisplay(response) {
+
+
+        //adds the weather to the DOM
+        $("body").removeClass()
+        $("body").addClass(setDisplayCondition(currWeather).background)
+        $("#condition").addClass(setDisplayCondition(currWeather).conditionIcon)
+        $("#location").text(response.name);
+        $("#cloud").text(response.clouds.all);
+        $("#wind-speed").text(response.wind.speed);
+
+        $("#humidity").text(response.main.humidity);
+
+        $("#temperature").text(Math.round(response.main.temp_max));
     }
 
 });
