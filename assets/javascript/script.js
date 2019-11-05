@@ -253,6 +253,40 @@ $(document).ready(function() {
         }
         return winningIngr;
     };
+    // gets the weather for a certain city
+    function getWeatherFor(input) {
+        const GoogleAPIKey = "AIzaSyC3qyHQsX5o7yXyc5zI-FYE1hrXlKVmqHo";
+        const WeatherAPIKey = "3cc9b3772873588eb5472e5de97869f4";
+        let latitude = ""
+        let longitude = ""
+        var queryURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + input + " &key=" + GoogleAPIKey;
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                latitude = position.coords.latitude;
+                longitude = position.coords.longitude;
+                $.ajax({
+                    url: queryURL,
+                    method: "GET"
+                }).then(function(response) {
+
+                    latitude = response.results[0].geometry.location.lat;
+                    longitude = response.results[0].geometry.location.lng;
+                    const WeatherqueryURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + WeatherAPIKey;
+                    $.ajax({
+                            url: WeatherqueryURL,
+                            method: "GET"
+                        })
+                        .then(function(response) {
+
+                            console.log(response);
+                        })
+                })
+            })
+        } else {
+            // throws an alert if geolocation isnt supported
+            alert("Geolocation is not supported by this browser.");
+        }
+    }
 
 
 });
