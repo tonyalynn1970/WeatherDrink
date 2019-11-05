@@ -5,8 +5,8 @@ $(document).ready(function() {
 
 
     let slideCount = 0;
-    const currWeather = [];
-    const newWeather = [];
+    let currWeather = [];
+
     let currentCity;
     let bestIngredient = ""
     let disDrinks = []
@@ -155,7 +155,7 @@ $(document).ready(function() {
     //determines what to set the background to 
     function setDisplayCondition(input) {
         if (input[2] === "rainy") {
-            return displayConditions[2]
+            return displayConditions[1]
         } else if (input[1] === "cloudy") {
             return displayConditions[3]
         } else {
@@ -198,7 +198,7 @@ $(document).ready(function() {
     };
     // gets the weather for a certain city
     function getWeatherFor(input) {
-        let newArray;
+        let newWeatherArray;
         const GoogleAPIKey = "AIzaSyC3qyHQsX5o7yXyc5zI-FYE1hrXlKVmqHo";
         const WeatherAPIKey = "3cc9b3772873588eb5472e5de97869f4";
         let latitude = ""
@@ -219,13 +219,18 @@ $(document).ready(function() {
                 })
                 .then(function(response) {
                     currentCity = response.name;
-                    newArray = [(isHot(response.main.temp_max)),
+                    newWeatherArray = [(isHot(response.main.temp_max)),
                         (isCloudy(response.clouds.all)),
                         (isRaining(response.weather[0].main))
                     ];
-                    let nextSuggestion = getIngredient(newArray)
-                    callDrinks(nextSuggestion, slideCount);
+                    console.log(newWeatherArray)
+                    let nextSuggestion = getIngredient(newWeatherArray)
 
+                    $("body").removeClass()
+                    $("body").addClass(setDisplayCondition(newWeatherArray).background)
+                    $("#condition").addClass(setDisplayCondition(newWeatherArray).conditionIcon)
+                    callDrinks(nextSuggestion, slideCount);
+                    currWeather = newWeatherArray;
                     weathertoDisplay(response);
 
                 })
@@ -294,8 +299,9 @@ $(document).ready(function() {
 
 
         //adds the weather to the DOM
-        $("body").removeClass()
+        $("body").removeClass();
         $("body").addClass(setDisplayCondition(currWeather).background)
+        $("#condition").removeClass("wi-day-sunny wi-day-cloudy wi-day-thunderstorm");
         $("#condition").addClass(setDisplayCondition(currWeather).conditionIcon)
         $("#location").text(response.name);
         $("#cloud").text(response.clouds.all);
