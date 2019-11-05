@@ -4,20 +4,12 @@ $(document).ready(function() {
 
 
 
-    let slideCount = 1;
+    let slideCount = 0;
     const currWeather = [];
+    const newWeather = [];
+
     let bestIngredient = ""
-    let disDrinks = [{
-        "name": "",
-        "img": "",
-        "recipe": "",
-        "ingredients": []
-    }, {
-        "name": "Moscow Mule",
-        "img": "assets/img/mule.jpg",
-        "recipe": "put some stuff in a tin cup",
-        "ingredients": [{ "name": "vodka", "amount": "2oz" }, { "name": "lime juice", "amount": "3oz" }]
-    }]
+    let disDrinks = []
 
     // used for setting the display of the weather icon and background
     let displayConditions = [{
@@ -47,7 +39,7 @@ $(document).ready(function() {
     ]
 
 
-
+    //config for slick slideshow
     $('#drink-slideshow').slick({
         "arrows": true
     });
@@ -63,13 +55,19 @@ $(document).ready(function() {
         })
         // gets a drink for the new location the user inputs
     $("#loc-search").on("click", function() {
-
-
-
-            let newLocation = $("#loc-value").val().trim();
-            $("#drink-slideshow").slick('slickAdd', '<div class="slide"><img id="img' + slideCount + '"><div class="slide-caption"><h3 id="drink-name' + slideCount + '" class="text-center"></h3><div class="grid-x"><div class="cell large-6"><ul id="ingredients' + slideCount + '"></ul></div><div class="cell large-6"><p id="recipe' + slideCount + '">stuff</p></div></div></div></div>');
-            drinkToDisplay(slideCount);
             slideCount++;
+            let cityLocation = $("#loc-value").val().trim();
+
+            getWeatherFor(cityLocation);
+
+
+
+
+
+
+
+
+
 
 
         })
@@ -90,13 +88,10 @@ $(document).ready(function() {
                 $("#loading").hide();
 
                 // checks the  conditions and sets them to an array currWeather used the get ingredient function
-                let hotness = isHot(response.main.temp_max);
-                let cloudness = isCloudy(response.clouds.all);
-                let rainyness = isRaining(response.weather[0].main);
-                currWeather[0] = hotness;
-                currWeather[1] = cloudness;
-                currWeather[2] = rainyness;
 
+                currWeather[0] = isHot(response.main.temp_max);
+                currWeather[1] = isCloudy(response.clouds.all);
+                currWeather[2] = isRaining(response.weather[0].main);
                 // runs the logic to select the ingredient we recommend
                 bestIngredient = (getIngredient(currWeather))
 
@@ -112,48 +107,7 @@ $(document).ready(function() {
                 $("#temperature").text(Math.round(response.main.temp_max));
 
                 //bring in drinks based on best ingredient
-                var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + bestIngredient;
-                $.ajax({
-                    url: queryURL,
-                    method: "GET"
-                }).then(function(response) {
-
-                    //selects a random drink from the list of 10 responses 
-                    const drink = response.drinks;
-                    var n = drink.length;
-                    const random = Math.floor(Math.random() * n);
-                    specific = drink[random];
-                    var specificId = specific.idDrink;
-
-                    // looks up the details of the specific drink
-                    var queryURL2 = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + specificId;
-
-                    $.ajax({
-                        url: queryURL2,
-                        method: "GET"
-                    }).then(function(response) {
-
-                        let index = 1;
-                        let ingredientArray = [];
-                        let drinkAgain = response.drinks[0]
-
-                        // adds the drinks details to the display array
-                        disDrinks[0].name = drinkAgain.strDrink;
-                        disDrinks[0].recipe = drinkAgain.strInstructions;
-                        disDrinks[0].img = drinkAgain.strDrinkThumb;
-
-                        // used to grab all the ingredients and their measurements and formats the the way we want
-                        while (drinkAgain['strIngredient' + index]) {
-                            ingredientArray.push({ name: drinkAgain['strIngredient' + index], amount: drinkAgain['strMeasure' + index] ? drinkAgain['strMeasure' + index] : "A dash " });
-                            index++;
-                        }
-                        disDrinks[0].ingredients = ingredientArray;
-
-                        // adds the suggested drink to the display
-                        drinkToDisplay(0);
-                    });
-
-                });
+                callDrinks(bestIngredient, slideCount)
             });
         })
     } else {
@@ -255,38 +209,99 @@ $(document).ready(function() {
     };
     // gets the weather for a certain city
     function getWeatherFor(input) {
+        let newArray;
         const GoogleAPIKey = "AIzaSyC3qyHQsX5o7yXyc5zI-FYE1hrXlKVmqHo";
         const WeatherAPIKey = "3cc9b3772873588eb5472e5de97869f4";
         let latitude = ""
         let longitude = ""
         var queryURL = "https://maps.googleapis.com/maps/api/geocode/json?address=" + input + " &key=" + GoogleAPIKey;
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                latitude = position.coords.latitude;
-                longitude = position.coords.longitude;
-                $.ajax({
-                    url: queryURL,
+
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response) {
+
+            latitude = response.results[0].geometry.location.lat;
+            longitude = response.results[0].geometry.location.lng;
+            const WeatherqueryURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" + latitude + "&lon=" + longitude + "&appid=" + WeatherAPIKey;
+            return $.ajax({
+                    url: WeatherqueryURL,
                     method: "GET"
-                }).then(function(response) {
-
-                    latitude = response.results[0].geometry.location.lat;
-                    longitude = response.results[0].geometry.location.lng;
-                    const WeatherqueryURL = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&appid=" + WeatherAPIKey;
-                    $.ajax({
-                            url: WeatherqueryURL,
-                            method: "GET"
-                        })
-                        .then(function(response) {
-
-                            console.log(response);
-                        })
                 })
-            })
-        } else {
-            // throws an alert if geolocation isnt supported
-            alert("Geolocation is not supported by this browser.");
-        }
+                .then(function(response) {
+
+                    newArray = [(isHot(response.main.temp_max)),
+                        (isCloudy(response.clouds.all)),
+                        (isRaining(response.weather[0].main))
+                    ];
+                    let nextSuggestion = getIngredient(newArray)
+                    callDrinks(nextSuggestion, slideCount);
+
+
+
+                })
+
+
+        })
+
+
     }
 
+
+    //gets a drink from the database takes in the recommended ingridient and the place it should be put in the database
+    function callDrinks(ingridient, num) {
+        var queryURL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=" + ingridient;
+        $.ajax({
+            url: queryURL,
+            method: "GET"
+        }).then(function(response) {
+
+            //selects a random drink from the list of 10 responses 
+            const drink = response.drinks;
+            var n = drink.length;
+            const random = Math.floor(Math.random() * n);
+            specific = drink[random];
+            var specificId = specific.idDrink;
+
+            // looks up the details of the specific drink
+
+            var queryURL2 = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" + specificId;
+
+            $.ajax({
+                url: queryURL2,
+                method: "GET"
+            }).then(function(response) {
+
+                let index = 1;
+                let ingredientArray = [];
+                let drinkAgain = response.drinks[0]
+
+                // adds the drinks details to the display array
+                // disDrinks[num].name = drinkAgain.strDrink;
+                // disDrinks[num].recipe = drinkAgain.strInstructions;
+                // disDrinks[num].img = drinkAgain.strDrinkThumb;
+
+                // used to grab all the ingredients and their measurements and formats the the way we want
+                while (drinkAgain['strIngredient' + index]) {
+                    ingredientArray.push({ name: drinkAgain['strIngredient' + index], amount: drinkAgain['strMeasure' + index] ? drinkAgain['strMeasure' + index] : "A dash " });
+                    index++;
+                }
+
+                disDrinks.push({
+                    "name": drinkAgain.strDrink,
+                    "recipe": drinkAgain.strInstructions,
+                    "img": drinkAgain.strDrinkThumb,
+                    "ingredients": ingredientArray
+                })
+
+                // adds the suggested drink to the display
+
+                $("#drink-slideshow").slick('slickAdd', '<div class="slide"><img id="img' + slideCount + '"><div class="slide-caption"><h3 id="drink-name' + slideCount + '" class="text-center"></h3><div class="grid-x"><div class="cell large-6"><ul id="ingredients' + slideCount + '"></ul></div><div class="cell large-6"><p id="recipe' + slideCount + '"></p></div></div></div></div>');
+                drinkToDisplay(num);
+
+            });
+
+        });
+    }
 
 });
