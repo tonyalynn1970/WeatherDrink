@@ -1,17 +1,13 @@
 $(document).ready(function() {
 
-    $(document).foundation();
 
-
-
+    //variables
     let slideCount = 0;
     let currWeather = [];
-
     let currentCity;
     let bestIngredient = ""
     let disDrinks = []
-
-    // used for setting the display of the weather icon and background
+        // used for setting the display of the weather icon and background
     let displayConditions = [{
 
             "description": "sun",
@@ -38,6 +34,8 @@ $(document).ready(function() {
         }
     ]
 
+    //open weather map api key
+    var APIKey = "5af2d38e7be7d61c1c6ad8b593ca7cdf";
 
     //config for slick slideshow
     $('#drink-slideshow').slick({
@@ -48,23 +46,13 @@ $(document).ready(function() {
     });
 
 
-    //open weather map api key
-    var APIKey = "5af2d38e7be7d61c1c6ad8b593ca7cdf";
-
     // removes the load screen when clicked
     $("#loading").on("click", function() {
-            $("#loading").hide();
-
-        })
-        // gets a drink for the new location the user inputs
-    $("#loc-search").on("click", function() {
-        slideCount++;
-        let cityLocation = $("#loc-value").val().trim();
-
-        getWeatherFor(cityLocation);
-
+        $("#loading").hide();
 
     })
+
+
 
 
 
@@ -73,7 +61,7 @@ $(document).ready(function() {
         navigator.geolocation.getCurrentPosition(function(position) {
             const latitude = position.coords.latitude;
             const longintude = position.coords.longitude;
-            var queryURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" + latitude + "&lon=" + longintude + "&appid=" + APIKey
+            const queryURL = "https://api.openweathermap.org/data/2.5/weather?units=imperial&lat=" + latitude + "&lon=" + longintude + "&appid=" + APIKey
 
             $.ajax({
                 url: queryURL,
@@ -83,18 +71,20 @@ $(document).ready(function() {
             .then(function(response) {
                 //hides the load screen
                 $("#loading").hide();
-                currentCity = response.name
-                console.log(currentCity)
+                // checks the conditions and sets them to an array currWeather used in the getIngredient function.
+                currentCity = response.name;
                 currWeather[0] = isHot(response.main.temp_max);
                 currWeather[1] = isCloudy(response.clouds.all);
                 currWeather[2] = isRaining(response.weather[0].main);
-                // runs the logic to select the ingredient we recommend
-                bestIngredient = (getIngredient(currWeather))
-                    // checks the  conditions and sets them to an array currWeather used the get ingredient function
 
+                // runs the logic to select the ingredient we recommend
+                bestIngredient = (getIngredient(currWeather));
+
+
+                //displays weather conditions;
                 weathertoDisplay(response);
 
-                //bring in drinks based on best ingredient
+                //bring in drinks based on best ingredient. sets it to the next slide.
                 callDrinks(bestIngredient, slideCount)
             });
         })
@@ -103,10 +93,18 @@ $(document).ready(function() {
         alert("Geolocation is not supported by this browser.");
     }
 
+    // gets a drink for the new location the user inputs
+    $("#loc-search").on("click", function() {
+        slideCount++;
+        let cityLocation = $("#loc-value").val().trim();
+        getWeatherFor(cityLocation);
+
+    })
+
 
     //functions
 
-
+    //adds the drink information to the current slide, takes an object of a drink.
     function drinkToDisplay(input) {
 
 
@@ -121,11 +119,10 @@ $(document).ready(function() {
         $("#img" + input).attr("src", disDrinks[input].img);
 
     }
-    // function for random
-    function randomize(min, max) {
-        return Math.floor(Math.random() * (max - min)) + min;
-    }
 
+    //the next 3 functions(isCloudy, isHot, isRainy) take the raw data from the 
+    //weather api and changes them into our subjective feelings about them.
+    // for example anything more than 35% cloud coverage is "cloudy".
     //deterimes if its cloudy
     function isCloudy(input) {
         if (input > 35) {
@@ -162,7 +159,8 @@ $(document).ready(function() {
             return displayConditions[0]
         }
     }
-    // takes in the weather and suggests a ingredient
+
+    // takes in the weather and suggests an ingredient, numbers are subjective based on a group poll.
     function getIngredient(weather) {
 
         const ingredientsToWeather = {
@@ -196,6 +194,7 @@ $(document).ready(function() {
         }
         return winningIngr;
     };
+
     // gets the weather for a certain city
     function getWeatherFor(input) {
         let newWeatherArray;
@@ -223,7 +222,6 @@ $(document).ready(function() {
                         (isCloudy(response.clouds.all)),
                         (isRaining(response.weather[0].main))
                     ];
-                    console.log(newWeatherArray)
                     let nextSuggestion = getIngredient(newWeatherArray)
 
                     $("body").removeClass()
@@ -234,11 +232,7 @@ $(document).ready(function() {
                     weathertoDisplay(response);
 
                 })
-
-
         })
-
-
     }
 
 
@@ -295,10 +289,10 @@ $(document).ready(function() {
         });
     }
 
+
+    //adds the weather to the DOM
     function weathertoDisplay(response) {
 
-
-        //adds the weather to the DOM
         $("body").removeClass();
         $("body").addClass(setDisplayCondition(currWeather).background)
         $("#condition").removeClass("wi-day-sunny wi-day-cloudy wi-day-thunderstorm");
@@ -306,9 +300,7 @@ $(document).ready(function() {
         $("#location").text(response.name);
         $("#cloud").text(response.clouds.all);
         $("#wind-speed").text(response.wind.speed);
-
         $("#humidity").text(response.main.humidity);
-
         $("#temperature").text(Math.round(response.main.temp_max));
     }
 
