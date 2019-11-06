@@ -10,12 +10,14 @@
 On visiting our page the user will be given a suggestion for a cocktail and a recipe. This recommendation will be based off the weather of the current users location. Looking at various weather statistics such as temperature, rain, snow or sunshine we will attempt to match a drink with ingredients that reflect those conditions.
 
 ## APIs to be used
-- https://openweathermap.org/
-- https://www.thecocktaildb.com/
+- [OpenWeatherMap](https://openweathermap.org/)
+- [TheCocktailDB](https://www.thecocktaildb.com/)
+- [Google Maps API](https:..maps.googleapis.com)
 
 ## New Technology to be Used
-- Foundation front end frame work
--
+- [Foundation front end frame work](https://foundation.zurb.com/)
+- [Slick.js](https://kenwheeler.github.io/slick/)
+- [WeatherIcons.io](http://weathericons.io)
 
 ## Breakdown of Tasks
 ### Steven Roskowski
