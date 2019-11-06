@@ -22,6 +22,7 @@
         z-index: 1;
         height: 100%;
     }
+    /* slides */
     
     .slide {
         position: relative;
@@ -44,6 +45,7 @@
         opacity: 0.8;
         filter: alpha(opacity=80);
     }
+    /* conditions to be set based on weather */
     
     .sunny {
         background-color: lightskyblue;
@@ -90,6 +92,7 @@
         float: right;
         margin: 20px;
     }
+    /* loading */
     
     #loading-text {
         position: fixed;
