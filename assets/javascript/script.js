@@ -286,7 +286,7 @@ $(document).ready(function() {
 
                 // adds the suggested drink to the display
 
-                $("#drink-slideshow").slick('slickAdd', '<div class="slide"><img id="img' + slideCount + '"><div class="slide-caption"><h3 id="drink-name' + slideCount + '" class="text-center"></h3><div class="grid-x"><div class="cell large-6"><ul id="ingredients' + slideCount + '"></ul></div><div class="cell large-6"><p id="recipe' + slideCount + '"></p></div><p class="city">Drink for: <b>' + currentCity + '</b></p></div></div></div>');
+                $("#drink-slideshow").slick('slickAdd', '<div class="slide"><img class="slide-image" id="img' + slideCount + '"><div class="slide-caption"><h3 id="drink-name' + slideCount + '" class="text-center"></h3><div class="grid-x"><div class="cell large-6"><ul id="ingredients' + slideCount + '"></ul></div><div class="cell large-6"><p id="recipe' + slideCount + '"></p></div><p class="city">Drink for: <b>' + currentCity + '</b></p></div></div></div>');
                 drinkToDisplay(num);
                 $("#drink-slideshow").slick('slickNext');
 

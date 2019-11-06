@@ -27,6 +27,12 @@
         position: relative;
     }
     
+    .slide-image {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
     .slide-caption {
         position: absolute;
         right: 0px;
